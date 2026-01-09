@@ -1,6 +1,6 @@
-package com.tunombre.taskmanager.repository;
+package com.nicolas.taskmanager.repository;
 
-import com.tunombre.taskmanager.model.User;
+import com.nicolas.taskmanager.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
