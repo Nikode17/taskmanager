@@ -25,8 +25,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()  // Login y registro públicos
-                        .anyRequest().authenticated()              // Todo lo demás requiere token
+                        .requestMatchers("/auth/**").permitAll()           // Login y registro públicos
+                        .requestMatchers("/", "/index.html").permitAll()   // Página de login pública
+                        .requestMatchers("/dashboard.html").permitAll()    // Dashboard HTML público (pero JS verifica token)
+                        .requestMatchers("/css/**", "/js/**").permitAll()  // CSS y JS públicos
+                        .anyRequest().authenticated()                      // API REST requiere token
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
