@@ -15,6 +15,7 @@ API REST de gestión de tareas con autenticación JWT y un frontend ligero en HT
 
 - Registro e inicio de sesión con token JWT (validez de 10 horas).
 - Crear, listar y borrar tareas desde el dashboard.
+- Cada usuario solo ve y borra sus propias tareas.
 - Rutas de la API protegidas por un filtro JWT.
 
 ## Endpoints
@@ -23,9 +24,11 @@ API REST de gestión de tareas con autenticación JWT y un frontend ligero en HT
 |---|---|---|
 | POST | `/auth/register` | Crea un usuario y devuelve un token |
 | POST | `/auth/login` | Devuelve un token |
-| GET | `/tasks` | Lista las tareas |
-| POST | `/tasks` | Crea una tarea |
-| DELETE | `/tasks/{id}` | Borra una tarea |
+| GET | `/tasks` | Lista las tareas del usuario autenticado |
+| POST | `/tasks` | Crea una tarea para el usuario autenticado |
+| DELETE | `/tasks/{id}` | Borra una tarea propia; responde 404 si no existe o es de otro usuario |
+
+Las rutas `/tasks` necesitan la cabecera `Authorization: Bearer <token>`. El dueño de cada tarea se toma del token, nunca del cuerpo de la petición, y las respuestas solo incluyen `id`, `title`, `description` y `completed`.
 
 ## Ejecutar en local
 
@@ -60,3 +63,11 @@ Requisitos: Java 17 o superior y MySQL 8.
 4. Abre [http://localhost:8080](http://localhost:8080).
 
 La clave de firma de los JWT se genera al arrancar, así que los tokens dejan de valer cada vez que se reinicia la aplicación.
+
+## Tests
+
+```bash
+./mvnw test
+```
+
+Los tests usan una base de datos H2 en memoria, así que no hace falta MySQL. Incluyen pruebas unitarias del servicio de tareas y pruebas de integración que pasan por el filtro JWT y comprueban que un usuario no puede ver, asignar ni borrar tareas de otro.
