@@ -1,5 +1,7 @@
 # Task Manager
 
+[![CI](https://github.com/Nikode17/taskmanager/actions/workflows/ci.yml/badge.svg)](https://github.com/Nikode17/taskmanager/actions/workflows/ci.yml)
+
 API REST de gestión de tareas con autenticación JWT y un frontend ligero en HTML, CSS y JavaScript.
 
 ## Stack
